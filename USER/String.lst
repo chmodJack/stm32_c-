@@ -1,0 +1,109 @@
+L 1 "String.c"
+N#include"String.h"
+L 1 "String.h" 1
+N#ifndef __STRING_H__
+N#define __STRING_H__
+N
+N#ifdef __cplusplus
+S extern "C" {
+N#endif 
+N
+N#include"Config.h"
+L 1 "Config.h" 1
+N#ifndef __CONFIG_H__
+N#define __CONFIG_H__
+N
+Ntypedef char I8;
+Ntypedef short I16;
+N//typedef long I32;
+Ntypedef int I32;
+Ntypedef long long I64;
+N
+Ntypedef unsigned char U8;
+Ntypedef unsigned short U16;
+N//typedef unsigned long U32;
+Ntypedef unsigned int U32;
+Ntypedef unsigned long long U64;
+N
+Ntypedef volatile unsigned char VU8;
+Ntypedef volatile unsigned short VU16;
+N//typedef volatile unsigned long VU32;
+Ntypedef volatile unsigned int VU32;
+Ntypedef volatile unsigned long long VU64;
+N
+Ntypedef unsigned int Size_t;
+N
+N#define SIZE_ARR(x) ((sizeof(x))/(sizeof(x[0])))
+N
+N#endif//__CONFIG_H__
+L 9 "String.h" 2
+N
+Nextern Size_t Strlen(U8* s1);
+Nextern U8* Strcpy(U8* s1,U8* s2);
+Nextern U8* Strcat(U8* s1,U8* s2);
+Nextern I8  Strcmp(U8* s1,U8* s2);
+Nextern U8* Strchr(U8* s1,U8 c1);
+Nextern U8* Strstr(U8* s1,U8* s2);
+N
+N#ifdef __cplusplus
+S}
+N#endif 
+N	 
+N#endif//__STRING_H__
+L 2 "String.c" 2
+NSize_t Strlen(U8* s1)
+N{
+N	Size_t temp=0;
+N	while(*s1++)
+N		temp++;
+N	return temp;
+N}
+NU8* Strcpy(U8* s1,U8* s2)
+N{
+N	U8* bak=s1;
+N	while((*s1++)=(*s2++));
+N	return bak;
+N}
+NU8* Strcat(U8* s1,U8* s2)
+N{
+N	U8* bak=s1;
+N	while(*s1)
+N		s1++;
+N	Strcpy(s1,s2);
+N	return bak;
+N}
+NI8 Strcmp(U8* s1,U8* s2)
+N{
+N	while(*s1==*s2)
+N	{
+N		if(*s1=='\0')
+N			return 0;
+N		s1++;
+N		s2++;
+N	}
+N	return (*s1>*s2)?1:-1;
+N}
+NU8* Strchr(U8* s1,U8 c1)
+N{
+N	while(*s1)
+N	{
+N		if(*s1==c1)
+N			return s1;
+N		else
+N			s1++;
+N	}
+N	return (U8*)0;
+N}
+NU8* Strstr(U8* s1,U8* s2)
+N{
+N	Size_t n=(Strlen(s1)-Strlen(s2)+1);
+N	for(Size_t i=0;i<n;i++)
+N	{
+N		if(*(s1+i)==*s2)
+N		{
+N			if(Strcmp(s1+i,s2)>=0)
+N				return s1+i;
+N		}
+N	}
+N	return (U8*)0;
+N}
